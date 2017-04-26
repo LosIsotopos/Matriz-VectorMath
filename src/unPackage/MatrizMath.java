@@ -296,7 +296,7 @@ public class MatrizMath {
 			aux=original[i];
 			original[i]=original[i+1];
 			original[i+1]=aux;
-			if(original[i][i] == 0) break;
+			if(original[i][i] != 0) break;
 			i++;
 		}
 		
