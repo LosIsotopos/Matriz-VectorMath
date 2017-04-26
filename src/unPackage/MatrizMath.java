@@ -144,64 +144,44 @@ public class MatrizMath {
 	}
 
 	public double determinante() throws DistDemException {
+		int move;
 		if (dimCol != dimFil) {
 			throw new DistDemException("No puede calcular el determinante ya que la matriz no es cuadrada");
 		}
 		double res = 0;
-		if (matriz.length == 2) {
-			res = (matriz[0][0] * matriz[1][1]) - (matriz[1][0] * matriz[0][1]);
-			return res;
-		}
-		for (int i = 0; i < matriz.length; i++) {
-			double[][] matResult = new double[dimFil - 1][dimCol - 1];
-			for (int j = 0; j < matriz.length; j++) {
-				if (j != i) {
-					for (int k = 1; k < matriz.length; k++) {
-						int indice = -1;
-						if (j < i)
-							indice = j;
-						else if (j > i)
-							indice = j - 1;
-						matResult[indice][k - 1] = matriz[j][k];
-					}
-				}
+		MatrizMath mDet = new MatrizMath(this.clonar());
+ 		move = mDet.cerosInferior();
+		for (int i = 0; i < this.matriz.length; i++) {
+			if(i == 0){
+				res+= mDet.matriz[i][i];
 			}
-			if (i % 2 != 1) {
-				res += matriz[i][0] * det(matResult);
-			} else {
-				res -= matriz[i][0] * det(matResult);
+			else{
+				res*= mDet.matriz[i][i];
 			}
 		}
-		return res;
+		return res * move;
 	}
+	
 
-	public double det(double[][] m) {
-		double res = 0;
-		if (m.length == 2) {
-			res = (m[0][0] * m[1][1]) - (m[1][0] * m[0][1]);
-			return res;
+	private int cerosInferior() {
+		double valor = 0;
+		int movio = 1;
+		if(this.matriz[0][0] == 0){
+			this.moverFila(this.matriz, 0);
+			movio *= -1;
 		}
-		for (int i = 0; i < m.length; i++) {
-			double[][] matResult = new double[m.length - 1][m.length - 1];
-			for (int j = 0; j < m.length; j++) {
-				if (j != i) {
-					for (int k = 1; k < m.length; k++) {
-						int indice = -1;
-						if (j < i)
-							indice = j;
-						else if (j > i)
-							indice = j - 1;
-						matResult[indice][k - 1] = m[j][k];
+		this.mostrarMatriz();
+		for (int i = 0; i < this.matriz.length-1; i++) {
+			for (int k = i+1; k < this.matriz.length; k++) {
+				for (int j = i; j < this.matriz.length; j++) {
+					if(i == j){
+						valor = this.matriz[k][j]/this.matriz[i][j];
 					}
+					matriz[k][j] -= valor * matriz[i][j];
 				}
 			}
-			if (i % 2 != 1) {
-				res += m[i][0] * det(matResult);
-			} else {
-				res -= m[i][0] * det(matResult);
-			}
 		}
-		return res;
+		return movio;
 	}
 
 	// PABLJNN AMIGOOO
@@ -292,12 +272,16 @@ public class MatrizMath {
 
 	public void moverFila(double[][] original,int i) {
 		double [] aux = new double[i];
-		while(i < original[i].length){
+		while(original[0][0] == 0){
+			// poner original i i == 0, { i++}
 			aux=original[i];
 			original[i]=original[i+1];
 			original[i+1]=aux;
-			if(original[i][i] != 0) break;
 			i++;
+			if(i == original.length-1){
+				i=0;
+			}
+			
 		}
 		
 	}
