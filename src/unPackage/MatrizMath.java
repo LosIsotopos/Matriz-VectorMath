@@ -151,6 +151,9 @@ public class MatrizMath {
 		double res = 0;
 		MatrizMath mDet = new MatrizMath(this.clonar());
  		move = mDet.cerosInferior();
+ 		if(move == 0){
+ 			return 0;
+ 		}
 		for (int i = 0; i < this.matriz.length; i++) {
 			if(i == 0){
 				res+= mDet.matriz[i][i];
@@ -166,10 +169,13 @@ public class MatrizMath {
 		double valor = 0;
 		int movio = 1;
 		if(this.matriz[0][0] == 0){
-			this.colocarPrimerElementoNoNulo(this.matriz, 0);
-			movio *= -1;
+			if(this.colocarPrimerElementoNoNulo(this.matriz, 0)){
+				movio *= -1;
+			}
+			else{
+				return 0;
+			}
 		}
-		this.mostrarMatriz();
 		for (int i = 0; i < this.matriz.length-1; i++) {
 			for (int k = i+1; k < this.matriz.length; k++) {
 				for (int j = i; j < this.matriz.length; j++) {
@@ -185,19 +191,20 @@ public class MatrizMath {
 
 	/** Mueve filas hasta que el [0][0] no sea nulo */
 	
-	public void colocarPrimerElementoNoNulo(double[][] original,int i) {
+	public boolean colocarPrimerElementoNoNulo(double[][] original,int i) {
 		double [] aux = new double[i];
-		while(original[0][0] == 0){
-			if(original[i+1][i] != 0){
-				aux=original[i];
-				original[i]=original[i+1];
-				original[i+1]=aux;
-			}
-			i++;
-			if(i == original.length-1){
-				i=0;
-			}
+		boolean ret = false;
+		for (int k = i+1; k < original.length; k++) {
+				if(original[0][0] == 0){
+					if(original[k][0] != 0){
+						aux=original[i];
+						original[i]=original[k];
+						original[k]=aux;
+						ret = true;
+					}
+				}
 		}
+		return ret;
 	}
 	
 	// PABLJNN AMIGOOO
