@@ -58,7 +58,7 @@ public class Main {
 			
 			Sel sistema1 = new Sel("matriz1.in");
 			System.out.println(sistema1);
-			MatrizMath m9 = new MatrizMath("matriz5.in");
+			MatrizMath m9 = new MatrizMath("matriz6.in");
 			m9.moverFila(m9.getMatriz(), 0);
 			m9.mostrarMatriz();
 			//MatrizMath mat1 =  sistema1.invertir();

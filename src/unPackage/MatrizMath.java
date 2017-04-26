@@ -292,11 +292,14 @@ public class MatrizMath {
 
 	public void moverFila(double[][] original,int i) {
 		double [] aux = new double[i];
+		int filaOriginal = i;
 		while(i < original[i].length){
-			aux=original[i];
-			original[i]=original[i+1];
-			original[i+1]=aux;
-			if(original[i][i] != 0) break;
+			if(original[i+1][filaOriginal] != 0){
+				aux=original[filaOriginal];
+				original[filaOriginal]=original[i+1];
+				original[i+1]=aux;
+				break;
+			}
 			i++;
 		}
 		
