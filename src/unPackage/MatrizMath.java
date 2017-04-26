@@ -162,12 +162,11 @@ public class MatrizMath {
 		return res * move;
 	}
 	
-
 	private int cerosInferior() {
 		double valor = 0;
 		int movio = 1;
 		if(this.matriz[0][0] == 0){
-			this.moverFila(this.matriz, 0);
+			this.colocarPrimerElementoNoNulo(this.matriz, 0);
 			movio *= -1;
 		}
 		this.mostrarMatriz();
@@ -184,6 +183,23 @@ public class MatrizMath {
 		return movio;
 	}
 
+	/** Mueve filas hasta que el [0][0] no sea nulo */
+	
+	public void colocarPrimerElementoNoNulo(double[][] original,int i) {
+		double [] aux = new double[i];
+		while(original[0][0] == 0){
+			if(original[i+1][i] != 0){
+				aux=original[i];
+				original[i]=original[i+1];
+				original[i+1]=aux;
+			}
+			i++;
+			if(i == original.length-1){
+				i=0;
+			}
+		}
+	}
+	
 	// PABLJNN AMIGOOO
 
 	public MatrizMath invertir() throws DistDemException {
@@ -272,17 +288,17 @@ public class MatrizMath {
 
 	public void moverFila(double[][] original,int i) {
 		double [] aux = new double[i];
-		while(original[0][0] == 0){
-			// poner original i i == 0, { i++}
-			aux=original[i];
-			original[i]=original[i+1];
-			original[i+1]=aux;
-			i++;
-			if(i == original.length-1){
-				i=0;
+		int filaOriginal = i;
+		while(i < original[i].length){
+			if(original[i+1][filaOriginal] != 0){
+				aux=original[filaOriginal];
+				original[filaOriginal]=original[i+1];
+				original[i+1]=aux;
+				break;
 			}
-			
+			i++;
 		}
 		
 	}
+	
 }
