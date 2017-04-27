@@ -162,49 +162,40 @@ public class MatrizMath {
 				res*= mDet.matriz[i][i];
 			}
 		}
+		if(res == 0){
+			return 0;
+		}
 		return res * move;
 	}
 	
 	private int cerosInferior() {
 		double valor = 0;
 		int movio = 1;
-		if(this.matriz[0][0] == 0){
-			if(this.colocarPrimerElementoNoNulo(this.matriz, 0)){
-				movio *= -1;
-			}
-			else{
-				return 0;
-			}
-		}
-		for (int i = 0; i < this.matriz.length-1; i++) {
-			for (int k = i+1; k < this.matriz.length; k++) {
-				for (int j = i; j < this.matriz.length; j++) {
-					if(i == j){
-						valor = this.matriz[k][j]/this.matriz[i][j];
-					}
-					matriz[k][j] -= valor * matriz[i][j];
+		int i = 0, j = 0, fila;
+		while (j < this.dimCol -1) {
+			fila = i;
+			while (i < this.dimFil) {
+				if (this.matriz[fila][j] == 0 && this.matriz[i][j] != 0) {
+					this.colocarPrimerElementoNoNulo(this.matriz,fila, i);
+					fila++;
+					movio *= -1;
 				}
+				i++;
 			}
+			j++;
+			i = j;
 		}
 		return movio;
 	}
 
 	/** Mueve filas hasta que el [0][0] sea no nulo */
-	
-	public boolean colocarPrimerElementoNoNulo(double[][] original,int i) {
-		double [] aux = new double[i];
-		boolean ret = false;
-		for (int k = i+1; k < original.length; k++) {
-				if(original[0][0] == 0){
-					if(original[k][0] != 0){
-						aux=original[i];
-						original[i]=original[k];
-						original[k]=aux;
-						ret = true;
-					}
-				}
-		}
-		return ret;
+
+	public boolean colocarPrimerElementoNoNulo(double[][] original,int origen,int destino) {
+		double [] aux = new double[origen];
+		aux=original[origen];
+		original[origen]=original[destino];
+		original[destino]=aux;
+		return true;
 	}
 	
 	// PABLJNN AMIGOOO

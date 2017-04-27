@@ -53,20 +53,25 @@ public class Main {
 //			System.out.println(m5.equals(m5));
 //			System.out.println(m5.equals(m4));
 //			
-//			MatrizMath m6 = new MatrizMath("matriz4.in");
-//			System.out.println(m6.determinante());
+			MatrizMath m6 = new MatrizMath("matriz5.in");
+			m6.mostrarMatriz();
+			System.out.println("Determinante = " + m6.determinante());
+			m6.mostrarMatriz();
 			
 //			Sel sistema1 = new Sel("matriz1.in");
 //			System.out.println(sistema1);
 //			MatrizMath m9 = new MatrizMath("matriz6.in");
-//			m9.moverFila(m9.getMatriz(), 0);
 //			m9.mostrarMatriz();
-			//MatrizMath mat1 =  sistema1.invertir();
-			//mat1.mostrarMatriz();
-			//System.out.println(sistema1);
+//			m9.moverFila(m9.getMatriz(), 0);
+//			MatrizMath m10 = new MatrizMath(m9.invertir().clonar());
+//			m9.mostrarMatriz();
+//			m10.mostrarMatriz();
+//			MatrizMath mat1 =  sistema1.invertir();
+//			mat1.mostrarMatriz();
+//			System.out.println(sistema1);
 			
-			MatrizMath m1 = new MatrizMath("matriz2.in");
-			m1.mostrarMatriz();
+//			MatrizMath m1 = new MatrizMath("matriz2.in");
+//			m1.mostrarMatriz();
 			
 //			System.out.println("Determinante = " + m1.determinante());
 			
