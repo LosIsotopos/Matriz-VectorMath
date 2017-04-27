@@ -56,18 +56,26 @@ public class Main {
 //			MatrizMath m6 = new MatrizMath("matriz4.in");
 //			System.out.println(m6.determinante());
 			
-			Sel sistema1 = new Sel("matriz1.in");
-			System.out.println(sistema1);
-			MatrizMath m9 = new MatrizMath("matriz6.in");
-			m9.moverFila(m9.getMatriz(), 0);
-			m9.mostrarMatriz();
+//			Sel sistema1 = new Sel("matriz1.in");
+//			System.out.println(sistema1);
+//			MatrizMath m9 = new MatrizMath("matriz6.in");
+//			m9.moverFila(m9.getMatriz(), 0);
+//			m9.mostrarMatriz();
 			//MatrizMath mat1 =  sistema1.invertir();
 			//mat1.mostrarMatriz();
 			//System.out.println(sistema1);
 			
 			MatrizMath m1 = new MatrizMath("matriz2.in");
 			m1.mostrarMatriz();
-			System.out.println(m1.determinante());
+			
+//			System.out.println("Determinante = " + m1.determinante());
+			
+			System.out.println("Norma 1 = " + m1.normaUno());
+			m1.mostrarMatriz();
+			System.out.println("Norma 2 = " + m1.normaDos());
+			m1.mostrarMatriz();
+			System.out.println("Norma Infinita = " + m1.normaInfinita());
+			m1.mostrarMatriz();
 			
 			} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

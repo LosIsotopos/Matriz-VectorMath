@@ -99,7 +99,9 @@ public class MatrizMath {
 		}
 		return new MatrizMath(matResult);
 	}
-
+	
+	/** verificar es vector x vector, pero es la clase matriz, y usa una matriz que no se de donde sale :) */
+	
 	public VectorMath producto(VectorMath v) throws DistDemException {
 		if (this.dimCol != v.getDim()) {
 			throw new DistDemException("No pueden multiplicarse la matriz por el vector, dimensiones erroneas");
@@ -189,7 +191,7 @@ public class MatrizMath {
 		return movio;
 	}
 
-	/** Mueve filas hasta que el [0][0] no sea nulo */
+	/** Mueve filas hasta que el [0][0] sea no nulo */
 	
 	public boolean colocarPrimerElementoNoNulo(double[][] original,int i) {
 		double [] aux = new double[i];
@@ -308,4 +310,76 @@ public class MatrizMath {
 		
 	}
 	
+	public double normaUno() throws DistDemException{
+		if(this.dimCol != this.dimFil){
+			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
+		}
+		double mayor = 0;
+		double sumaParcial = 0;
+		for (int j = 0; j < this.matriz.length; j++) {
+			for (int i = 0; i < this.matriz.length; i++) {
+				sumaParcial += Math.abs(this.matriz[i][j]);
+			}
+			if(mayor < sumaParcial){
+				mayor = sumaParcial;
+			}
+			sumaParcial = 0;
+		}	
+		return mayor;
+	}
+	
+	public double normaDos() throws DistDemException{
+		if(this.dimCol != this.dimFil){
+			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
+		}
+		double mayor = 0;
+		double [][] mat = new double [this.dimFil][this.dimCol];
+		MatrizMath mAtxA = new MatrizMath(mat);
+		MatrizMath mTraspuesta = new MatrizMath(this.clonar());
+		mTraspuesta.trasponer();
+		mAtxA = this.producto(mTraspuesta);
+		mayor = Math.sqrt(mAtxA.buscarMayor());
+		return mayor;
+	}
+
+	public double normaInfinita() throws DistDemException{
+		if(this.dimCol != this.dimFil){
+			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
+		}
+		double mayor = 0;
+		double sumaParcial = 0;
+		for (int i = 0; i < this.matriz.length; i++) {
+			for (int j = 0; j < this.matriz.length; j++) {
+				sumaParcial += Math.abs(this.matriz[i][j]);
+			}
+			if(mayor < sumaParcial){
+				mayor = sumaParcial;
+			}
+			sumaParcial = 0;
+		}	
+		return mayor;
+	}
+	
+	public void trasponer(){
+		double aux = 0;
+		for (int i = 0; i < this.matriz.length-1; i++) {
+			for (int j = i+1; j < this.matriz.length; j++) {
+				aux = this.matriz[i][j];
+				this.matriz[i][j] = this.matriz[j][i];
+				this.matriz[j][i] = aux;
+			}
+		}
+	}
+	
+	private double buscarMayor() {
+		double mayor = 0;
+		for (int i = 0; i < this.matriz.length; i++) {
+			for (int j = 0; j < this.matriz.length; j++) {
+				if(mayor < this.matriz[i][j]){
+					mayor = this.matriz[i][j];
+				}
+			}
+		}
+		return mayor;
+	}
 }
