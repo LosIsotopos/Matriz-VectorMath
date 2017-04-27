@@ -100,8 +100,6 @@ public class MatrizMath {
 		return new MatrizMath(matResult);
 	}
 	
-	/** verificar es vector x vector, pero es la clase matriz, y usa una matriz que no se de donde sale :) */
-	
 	public VectorMath producto(VectorMath v) throws DistDemException {
 		if (this.dimCol != v.getDim()) {
 			throw new DistDemException("No pueden multiplicarse la matriz por el vector, dimensiones erroneas");
