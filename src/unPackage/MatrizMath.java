@@ -17,6 +17,12 @@ public class MatrizMath {
 		this.dimCol = matriz[0].length;
 	}
 
+	public MatrizMath(int fila, int columna) {
+		this.dimFil = fila;
+		this.dimCol = columna;
+		this.matriz = new double[fila][columna];
+	}
+	
 	public MatrizMath(String path) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(path));
 		sc.useLocale(Locale.ENGLISH);
@@ -155,15 +161,15 @@ public class MatrizMath {
  			return 0;
  		}
 		for (int i = 0; i < this.matriz.length; i++) {
+			if(mDet.matriz[i][i] == 0){
+				return 0;
+			}
 			if(i == 0){
 				res+= mDet.matriz[i][i];
 			}
 			else{
 				res*= mDet.matriz[i][i];
 			}
-		}
-		if(res == 0){
-			return 0;
 		}
 		return res * move;
 	}
@@ -200,79 +206,133 @@ public class MatrizMath {
 	
 	// PABLJNN AMIGOOO
 
-	public MatrizMath invertir() throws DistDemException {
-		double[][] invertida = new double[matriz.length][matriz.length];
-		MatrizMath mInvertida = new MatrizMath(this.clonar());
-		if(mInvertida.determinante() == 0 || mInvertida.matriz.length != mInvertida.matriz[0].length) {
-			//Asumiendo que anda piola después vemos si le mandamos un throw exception 
-			//Yo creo que el syso es re catinga
-			System.out.println("NO SE PUEDE INVERTIR");
-			return null;
-		}
-		for (int o = 0; o < invertida.length; o++) {
-			invertida[o][o] = 1;
-		}
-		for (int i = 0; i < mInvertida.matriz.length; i++) {
-			if (mInvertida.matriz[i][i] == 0) {
-				moverFila(mInvertida.matriz,i);
-			}
-			dividir(mInvertida.matriz, i, invertida);
-			cerosInferiores(mInvertida.matriz, i, invertida);
-		}
-		for (int i = 0; i < mInvertida.matriz.length; i++) {
-			cerosSuperiores(mInvertida.matriz, i, invertida);
-		}
-		mInvertida.setMatriz(invertida);
-		return mInvertida;
+//	public MatrizMath invertir() throws DistDemException {
+//		double[][] invertida = new double[matriz.length][matriz.length];
+//		MatrizMath mInvertida = new MatrizMath(this.clonar());
+//		if(mInvertida.determinante() == 0 || mInvertida.matriz.length != mInvertida.matriz[0].length) {
+//			//Asumiendo que anda piola después vemos si le mandamos un throw exception 
+//			//Yo creo que el syso es re catinga
+//			System.out.println("NO SE PUEDE INVERTIR");
+//			return null;
+//		}
+//		for (int o = 0; o < invertida.length; o++) {
+//			invertida[o][o] = 1;
+//		}
+//		for (int i = 0; i < mInvertida.matriz.length; i++) {
+//			if (mInvertida.matriz[i][i] == 0) {
+//				moverFila(mInvertida.matriz,i);
+//			}
+//			dividir(mInvertida.matriz, i, invertida);
+//			cerosInferiores(mInvertida.matriz, i, invertida);
+//		}
+//		for (int i = 0; i < mInvertida.matriz.length; i++) {
+//			cerosSuperiores(mInvertida.matriz, i, invertida);
+//		}
+//		mInvertida.setMatriz(invertida);
+//		return mInvertida;
+//
+//	}
 
-	}
+//	private void cerosSuperiores(double[][] original, int i, double[][] invertida) {
+//		double valor;
+//		for (int j = i + 1; j < original.length; j++) {
+//			valor = original[i][j];
+//			for (int k = 0; k < original.length; k++) {
+//				original[i][k] -= valor * original[j][k];
+//				invertida[i][k] -= valor * invertida[j][k];
+//
+//			}
+//		}
+//
+//	}
+//
+//	private void cerosInferiores(double[][] original, int i, double[][] invertida) {
+//		double valor;
+//		for (int j = i + 1; j < original.length; j++) {
+//			valor = original[j][i];
+//			for (int k = 0; k < original.length; k++) {
+//				original[j][k] -= valor * original[i][k];
+//				invertida[j][k] -= valor * invertida[i][k];
+//
+//			}
+//		}
+//	}
 
-	private void cerosSuperiores(double[][] original, int i, double[][] invertida) {
-		double valor;
-		for (int j = i + 1; j < original.length; j++) {
-			valor = original[i][j];
-			for (int k = 0; k < original.length; k++) {
-				original[i][k] -= valor * original[j][k];
-				invertida[i][k] -= valor * invertida[j][k];
+//	private void dividir(double[][] original, int i, double[][] invertida) {
+//		// Guardo el valor previo para no perderlo y aprovechar el for para
+//		// también
+//		// modificar la invertida
+//		double valorInicial = original[i][i];
+//		for (int j = 0; j < original.length; j++) {
+//			original[i][j] /= valorInicial;
+//			invertida[i][j] /= valorInicial;
+//		}
+//
+//	}
 
-			}
-		}
-
-	}
-
-	private void cerosInferiores(double[][] original, int i, double[][] invertida) {
-		double valor;
-		for (int j = i + 1; j < original.length; j++) {
-			valor = original[j][i];
-			for (int k = 0; k < original.length; k++) {
-				original[j][k] -= valor * original[i][k];
-				invertida[j][k] -= valor * invertida[i][k];
-
-			}
-		}
-	}
-
-	private void dividir(double[][] original, int i, double[][] invertida) {
-		// Guardo el valor previo para no perderlo y aprovechar el for para
-		// también
-		// modificar la invertida
-		double valorInicial = original[i][i];
-		for (int j = 0; j < original.length; j++) {
-			original[i][j] /= valorInicial;
-			invertida[i][j] /= valorInicial;
-		}
-
-	}
-
-	public int length() {
-		return this.matriz.length;
-	}
-
+//	public int length() {
+//		return this.matriz.length;
+//	}
+//
 	/* Retorna el valor de la posicion i j */
 	public double getAt(int i, int j) {
 		return this.matriz[i][j];
 	}
 
+	/** FERNANDO AMIGOO 
+	 * @throws DistDemException */
+	// Version beta
+	public MatrizMath inversaGauss() throws DistDemException {
+		if(this.dimFil != this.dimCol)
+			throw new DistDemException("Inversa solo de matrices cuadradas");
+		double pivote, auxiliar;
+		MatrizMath matAuxiliar = new MatrizMath(this.clonar());
+		MatrizMath matInversa = new MatrizMath(this.dimFil, this.dimCol);
+		matInversa.matIdentidad();
+		for (int z = 0; z < matAuxiliar.dimFil - 1; z++) {
+			matAuxiliar.ordDesdeI(z, matInversa);
+			pivote = matAuxiliar.matriz[z][z];
+			for (int i = z + 1; i < matAuxiliar.dimFil; i++) {
+				auxiliar = matAuxiliar.matriz[i][z];
+				if (auxiliar != 0) {
+					for (int j = 0; j < matAuxiliar.dimCol; j++) {
+						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote - matAuxiliar.matriz[z][j] * auxiliar;
+						matInversa.matriz[i][j] = matInversa.matriz[i][j] * pivote - matInversa.matriz[z][j] * auxiliar;
+					}
+				}
+			}
+		}
+		//Una vez triangulada la matriz pregunto si su det es 0 para no continuar
+		if (matAuxiliar.detIgual0()) {
+			throw new DistDemException("El determinante es 0");
+		}
+		for (int z = matAuxiliar.dimFil - 1; z > 0; z--) {
+			pivote = matAuxiliar.matriz[z][z];
+			for (int i = z - 1; i >= 0; i--) {
+				auxiliar = matAuxiliar.matriz[i][z];
+				if (auxiliar != 0) {
+					for (int j = 0; j < matAuxiliar.dimCol; j++) {
+						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote - matAuxiliar.matriz[z][j] * auxiliar;
+						matInversa.matriz[i][j] = matInversa.matriz[i][j] * pivote - matInversa.matriz[z][j] * auxiliar;
+					}
+					if ((auxiliar = matAuxiliar.matriz[i][i]) != 1) {
+						for (int j = 0; j < matAuxiliar.dimCol; j++) {
+							matInversa.matriz[i][j] /= auxiliar;
+							matAuxiliar.matriz[i][j] /= auxiliar;
+						}
+					}
+				}
+			}
+		}
+		// ESTO ES MEDIO RANCIO PERO NOSE COMO SEA OPTIMO Y PODER DIVIDRLO 
+		if ((auxiliar = matAuxiliar.matriz[this.dimFil - 1][this.dimFil - 1]) != 1) {
+			for (int j = 0; j < matAuxiliar.dimCol; j++) {
+				matInversa.matriz[this.dimFil - 1][j] /= auxiliar;
+				matAuxiliar.matriz[this.dimFil - 1][j] /= auxiliar;
+			}
+		}
+		return matInversa;
+	}
 	/* Clona una matriz de dobles */
 	public double[][] clonar() {
 		double [][] mat = new double [this.dimFil][this.dimCol];
@@ -284,19 +344,45 @@ public class MatrizMath {
 		return mat;
 	}
 
-	public void moverFila(double[][] original,int i) {
-		double [] aux = new double[i];
-		int filaOriginal = i;
-		while(i < original[i].length){
-			if(original[i+1][filaOriginal] != 0){
-				aux=original[filaOriginal];
-				original[filaOriginal]=original[i+1];
-				original[i+1]=aux;
-				break;
+	public void matIdentidad() {
+		for (int i = 0; i < this.dimFil; i++) {
+			this.matriz[i][i] = 1;
+		}
+	}
+	
+	/*Ordena desde la fila indicada en inicio */
+	public void ordDesdeI(int inicio, MatrizMath mat2) throws DistDemException {
+		int i = inicio + 1, fila = inicio;
+		while (i < this.dimFil) {
+			if (this.matriz[fila][inicio] == 0 && this.matriz[i][inicio] != 0) {
+				this.mover(fila, i);
+				mat2.mover(fila, i);
+				fila++;
 			}
 			i++;
 		}
+	}
+
+	public void mover(int origen, int destino) throws DistDemException {
+		if (origen < 0 || destino >= this.dimFil)
+			throw new DistDemException("SE PASO DE LAS FILAS DE LA MATRIZ");
+		double[] aux = new double[this.dimFil];
+		aux = this.matriz[origen];
+		this.matriz[origen] = this.matriz[destino];
+		this.matriz[destino] = aux;
+	}
+	
+	/* Una vez triangulada la matriz pregunta si el det es 0*/
+	private boolean detIgual0() {
+		int i = 0;
+		while (i < this.dimFil && this.matriz[i][i] != 0) {
+			i++;
+		}
 		
+		if(i == this.dimFil- 1)
+			return true;
+		
+		return false;
 	}
 	
 	public double normaUno() throws DistDemException{

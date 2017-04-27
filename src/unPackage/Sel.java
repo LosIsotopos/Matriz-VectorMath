@@ -65,7 +65,7 @@ public class Sel {
 	// }
 
 	public MatrizMath invertir() throws DistDemException {
-		return this.matriz.invertir();
+		return this.matriz.inversaGauss();
 	}
 
 	@Override
