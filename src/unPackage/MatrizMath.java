@@ -373,8 +373,8 @@ public class MatrizMath {
 		double mayor = 0;
 		for (int i = 0; i < this.matriz.length; i++) {
 			for (int j = 0; j < this.matriz.length; j++) {
-				if(mayor < this.matriz[i][j]){
-					mayor = this.matriz[i][j];
+				if(mayor < Math.abs(this.matriz[i][j])){
+					mayor = Math.abs(this.matriz[i][j]);
 				}
 			}
 		}

@@ -70,12 +70,12 @@ public class Main {
 			
 //			System.out.println("Determinante = " + m1.determinante());
 			
-			System.out.println("Norma 1 = " + m1.normaUno());
-			m1.mostrarMatriz();
-			System.out.println("Norma 2 = " + m1.normaDos());
-			m1.mostrarMatriz();
-			System.out.println("Norma Infinita = " + m1.normaInfinita());
-			m1.mostrarMatriz();
+//			System.out.println("Norma 1 = " + m1.normaUno());
+//			m1.mostrarMatriz();
+//			System.out.println("Norma 2 = " + m1.normaDos());
+//			m1.mostrarMatriz();
+//			System.out.println("Norma Infinita = " + m1.normaInfinita());
+//			m1.mostrarMatriz();
 			
 			} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
