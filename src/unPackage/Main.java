@@ -53,10 +53,10 @@ public class Main {
 //			System.out.println(m5.equals(m5));
 //			System.out.println(m5.equals(m4));
 //			
-			MatrizMath m6 = new MatrizMath("matriz5.in");
-			m6.mostrarMatriz();
-			System.out.println("Determinante = " + m6.determinante());
-			m6.mostrarMatriz();
+//			MatrizMath m6 = new MatrizMath("matriz5.in");
+//			m6.mostrarMatriz();
+//			System.out.println("Determinante = " + m6.determinante());
+//			m6.mostrarMatriz();
 			
 //			Sel sistema1 = new Sel("matriz1.in");
 //			System.out.println(sistema1);
@@ -72,15 +72,24 @@ public class Main {
 			
 //			MatrizMath m1 = new MatrizMath("matriz2.in");
 //			m1.mostrarMatriz();
-			
+//			
 //			System.out.println("Determinante = " + m1.determinante());
-			
+//			
 //			System.out.println("Norma 1 = " + m1.normaUno());
 //			m1.mostrarMatriz();
 //			System.out.println("Norma 2 = " + m1.normaDos());
 //			m1.mostrarMatriz();
 //			System.out.println("Norma Infinita = " + m1.normaInfinita());
 //			m1.mostrarMatriz();
+			
+			Sel sistema1 = new Sel ("matriz.in");
+			System.out.println(sistema1);
+			sistema1.resolverSistema();
+			sistema1.mostrarResultado();
+			if (sistema1.calcularErrorSolucion()) {
+				System.out.println("FUNCA");
+			}else 
+				System.out.println("la tengo inside");
 			
 			} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

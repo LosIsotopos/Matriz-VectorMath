@@ -2,6 +2,8 @@ package unPackage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
@@ -205,75 +207,76 @@ public class MatrizMath {
 	}
 	
 	// PABLJNN AMIGOOO
+/*
+	public MatrizMath invertir() throws DistDemException {
+		double[][] invertida = new double[matriz.length][matriz.length];
+		MatrizMath mInvertida = new MatrizMath(this.clonar());
+		if(mInvertida.determinante() == 0 || mInvertida.matriz.length != mInvertida.matriz[0].length) {
+			//Asumiendo que anda piola después vemos si le mandamos un throw exception 
+			//Yo creo que el syso es re catinga
+			System.out.println("NO SE PUEDE INVERTIR");
+			return null;
+		}
+		for (int o = 0; o < invertida.length; o++) {
+			invertida[o][o] = 1;
+		}
+		for (int i = 0; i < mInvertida.matriz.length; i++) {
+			if (mInvertida.matriz[i][i] == 0) {
+				moverFila(mInvertida.matriz,i);
+			}
+			dividir(mInvertida.matriz, i, invertida);
+			cerosInferiores(mInvertida.matriz, i, invertida);
+		}
+		for (int i = 0; i < mInvertida.matriz.length; i++) {
+			cerosSuperiores(mInvertida.matriz, i, invertida);
+		}
+		mInvertida.setMatriz(invertida);
+		return mInvertida;
 
-//	public MatrizMath invertir() throws DistDemException {
-//		double[][] invertida = new double[matriz.length][matriz.length];
-//		MatrizMath mInvertida = new MatrizMath(this.clonar());
-//		if(mInvertida.determinante() == 0 || mInvertida.matriz.length != mInvertida.matriz[0].length) {
-//			//Asumiendo que anda piola después vemos si le mandamos un throw exception 
-//			//Yo creo que el syso es re catinga
-//			System.out.println("NO SE PUEDE INVERTIR");
-//			return null;
-//		}
-//		for (int o = 0; o < invertida.length; o++) {
-//			invertida[o][o] = 1;
-//		}
-//		for (int i = 0; i < mInvertida.matriz.length; i++) {
-//			if (mInvertida.matriz[i][i] == 0) {
-//				moverFila(mInvertida.matriz,i);
-//			}
-//			dividir(mInvertida.matriz, i, invertida);
-//			cerosInferiores(mInvertida.matriz, i, invertida);
-//		}
-//		for (int i = 0; i < mInvertida.matriz.length; i++) {
-//			cerosSuperiores(mInvertida.matriz, i, invertida);
-//		}
-//		mInvertida.setMatriz(invertida);
-//		return mInvertida;
-//
-//	}
+	}
+	*/
+	
+/*
+	private void cerosSuperiores(double[][] original, int i, double[][] invertida) {
+		double valor;
+		for (int j = i + 1; j < original.length; j++) {
+			valor = original[i][j];
+			for (int k = 0; k < original.length; k++) {
+				original[i][k] -= valor * original[j][k];
+				invertida[i][k] -= valor * invertida[j][k];
 
-//	private void cerosSuperiores(double[][] original, int i, double[][] invertida) {
-//		double valor;
-//		for (int j = i + 1; j < original.length; j++) {
-//			valor = original[i][j];
-//			for (int k = 0; k < original.length; k++) {
-//				original[i][k] -= valor * original[j][k];
-//				invertida[i][k] -= valor * invertida[j][k];
-//
-//			}
-//		}
-//
-//	}
-//
-//	private void cerosInferiores(double[][] original, int i, double[][] invertida) {
-//		double valor;
-//		for (int j = i + 1; j < original.length; j++) {
-//			valor = original[j][i];
-//			for (int k = 0; k < original.length; k++) {
-//				original[j][k] -= valor * original[i][k];
-//				invertida[j][k] -= valor * invertida[i][k];
-//
-//			}
-//		}
-//	}
+			}
+		}
 
-//	private void dividir(double[][] original, int i, double[][] invertida) {
-//		// Guardo el valor previo para no perderlo y aprovechar el for para
-//		// también
-//		// modificar la invertida
-//		double valorInicial = original[i][i];
-//		for (int j = 0; j < original.length; j++) {
-//			original[i][j] /= valorInicial;
-//			invertida[i][j] /= valorInicial;
-//		}
-//
-//	}
+	}
 
-//	public int length() {
-//		return this.matriz.length;
-//	}
-//
+	private void cerosInferiores(double[][] original, int i, double[][] invertida) {
+		double valor;
+		for (int j = i + 1; j < original.length; j++) {
+			valor = original[j][i];
+			for (int k = 0; k < original.length; k++) {
+				original[j][k] -= valor * original[i][k];
+				invertida[j][k] -= valor * invertida[i][k];
+
+			}
+		}
+	}
+*/
+/*
+	private void dividir(double[][] original, int i, double[][] invertida) {
+		// Guardo el valor previo para no perderlo y aprovechar el for para
+		// también
+		// modificar la invertida
+		double valorInicial = original[i][i];
+		for (int j = 0; j < original.length; j++) {
+			original[i][j] /= valorInicial;
+			invertida[i][j] /= valorInicial;
+		}
+
+	}
+
+*/
+	
 	/* Retorna el valor de la posicion i j */
 	public double getAt(int i, int j) {
 		return this.matriz[i][j];
@@ -288,10 +291,13 @@ public class MatrizMath {
 		double pivote, auxiliar;
 		MatrizMath matAuxiliar = new MatrizMath(this.clonar());
 		MatrizMath matInversa = new MatrizMath(this.dimFil, this.dimCol);
+		
 		matInversa.matIdentidad();
 		for (int z = 0; z < matAuxiliar.dimFil - 1; z++) {
 			matAuxiliar.ordDesdeI(z, matInversa);
 			pivote = matAuxiliar.matriz[z][z];
+			if(pivote == 0)
+				throw new DistDemException("El determinante es 0");
 			for (int i = z + 1; i < matAuxiliar.dimFil; i++) {
 				auxiliar = matAuxiliar.matriz[i][z];
 				if (auxiliar != 0) {
@@ -331,6 +337,8 @@ public class MatrizMath {
 				matAuxiliar.matriz[this.dimFil - 1][j] /= auxiliar;
 			}
 		}
+		
+		matInversa.mostrarMatriz();
 		return matInversa;
 	}
 	/* Clona una matriz de dobles */
