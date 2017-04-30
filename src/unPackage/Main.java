@@ -88,16 +88,17 @@ public class Main {
 			
 //			MatrizMath m1 = new MatrizMath("matriz2.in");
 //			m1.mostrarMatriz();
-			
+//			
 //			System.out.println("Determinante = " + m1.determinante());
-			
+//			
 //			System.out.println("Norma 1 = " + m1.normaUno());
 //			m1.mostrarMatriz();
 //			System.out.println("Norma 2 = " + m1.normaDos());
 //			m1.mostrarMatriz();
 //			System.out.println("Norma Infinita = " + m1.normaInfinita());
 //			m1.mostrarMatriz();
-			
+
+
 			MatrizMath m101 = new MatrizMath("matriz101.in");
 //			m101.mostrarMatriz();
 //			System.out.println("Determinante = " + m101.determinante());
@@ -108,6 +109,15 @@ public class Main {
 //			System.out.println(sistema1);
 //			MatrizMath mat1 = sistema1.invertir();
 //			mat1.mostrarMatriz();
+
+//			Sel sistema1 = new Sel ("matriz.in");
+//			System.out.println(sistema1);
+//			sistema1.resolverSistema();
+//			sistema1.mostrarResultado();
+//			if (sistema1.calcularErrorSolucion()) {
+//				System.out.println("Insertidumbre Valida");
+//			}else 
+//				System.out.println("Insertidumbre NO VALIDA");
 			
 			} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

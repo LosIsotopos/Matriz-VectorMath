@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class Sel {
 	/* Se implementa la clase MatrizMath y VectorMath */
-	private VectorMath vector;
+	private VectorMath vectorIndep;
+	private VectorMath vectorResul;
 	private MatrizMath matriz;
 	private char[] variables; // Preguntar si hay que incluirlas o no
 
@@ -37,7 +38,7 @@ public class Sel {
 		sc.close();
 		/* Se instancia los objetos vector y matriz con los auxiliares */
 		this.matriz = new MatrizMath(matrizAux);
-		this.vector = new VectorMath(vectorAux);
+		this.vectorIndep = new VectorMath(vectorAux);
 	}
 
 	// public void invertir()
@@ -54,15 +55,35 @@ public class Sel {
 		this.matriz.mostrarMatriz();
 	}
 
-	public void mostrarVector() {
+	public void mostrarVectorIndep() {
 		// System.out.println("Vector = " + Arrays.toString(vector));
-		System.out.println(this.vector);
+		System.out.println(this.vectorIndep);
 	}
 
-	// public VectorMath resolverSistema() throws DistDemException
-	// {
-	// return this.matriz.invertir().producto(this.vector);
-	// }
+	 public void resolverSistema() throws DistDemException
+	 {
+		 this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
+		 
+	 }
+	 
+	 public void mostrarResultado(){
+		 System.out.println(this.vectorResul);
+	 }
+	 
+	 public boolean calcularErrorSolucion() throws DistDemException{
+		 MatrizMath identidadPrima = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
+		 MatrizMath identidad = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
+		 
+		 identidad.matIdentidad();
+		 identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
+
+		 identidadPrima = identidad.restarMatriz(identidadPrima);
+		 
+		 if(identidadPrima.normaDos() < Math.pow(10, -6))
+			 return true;
+		 return false;
+		 
+	 }
 
 	public MatrizMath invertir() throws DistDemException {
 		return this.matriz.inversaGauss();
@@ -77,7 +98,7 @@ public class Sel {
 				cadena.append(matriz.getAt(i, j) + " ");
 			}
 			cadena.setCharAt(cadena.length() - 1, ']');
-			cadena.append(" [" + variables[i] + "] ==" + " [" + vector.getAt(i) + "]\n");
+			cadena.append(" [" + variables[i] + "] ==" + " [" + vectorIndep.getAt(i) + "]\n");
 		}
 
 		return cadena.toString();

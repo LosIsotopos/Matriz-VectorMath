@@ -22,7 +22,7 @@ public class MatrizMath {
 		this.dimCol = columna;
 		this.matriz = new double[fila][columna];
 	}
-	
+
 	public MatrizMath(String path) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(path));
 		sc.useLocale(Locale.ENGLISH);
@@ -105,7 +105,7 @@ public class MatrizMath {
 		}
 		return new MatrizMath(matResult);
 	}
-	
+
 	public VectorMath producto(VectorMath v) throws DistDemException {
 		if (this.dimCol != v.getDim()) {
 			throw new DistDemException("No pueden multiplicarse la matriz por el vector, dimensiones erroneas");
@@ -156,33 +156,31 @@ public class MatrizMath {
 		}
 		double res = 0;
 		MatrizMath mDet = new MatrizMath(this.clonar());
- 		move = mDet.cerosInferior();
- 		if(move == 0){
- 			return 0;
- 		}
+		move = mDet.cerosInferior();
+		if (move == 0) {
+			return 0;
+		}
 		for (int i = 0; i < this.matriz.length; i++) {
-			if(mDet.matriz[i][i] == 0){
+			if (mDet.matriz[i][i] == 0) {
 				return 0;
 			}
-			if(i == 0){
-				res+= mDet.matriz[i][i];
-			}
-			else{
-				res*= mDet.matriz[i][i];
+			if (i == 0) {
+				res += mDet.matriz[i][i];
+			} else {
+				res *= mDet.matriz[i][i];
 			}
 		}
 		return res * move;
 	}
-	
+
 	private int cerosInferior() {
-		double valor = 0;
 		int movio = 1;
 		int i = 0, j = 0, fila;
-		while (j < this.dimCol -1) {
+		while (j < this.dimCol - 1) {
 			fila = i;
 			while (i < this.dimFil) {
 				if (this.matriz[fila][j] == 0 && this.matriz[i][j] != 0) {
-					this.colocarPrimerElementoNoNulo(this.matriz,fila, i);
+					this.colocarPrimerElementoNoNulo(this.matriz, fila, i);
 					fila++;
 					movio *= -1;
 				}
@@ -196,16 +194,15 @@ public class MatrizMath {
 
 	/** Mueve filas hasta que el [0][0] sea no nulo */
 
-	public boolean colocarPrimerElementoNoNulo(double[][] original,int origen,int destino) {
-		double [] aux = new double[origen];
-		aux=original[origen];
-		original[origen]=original[destino];
-		original[destino]=aux;
+	public boolean colocarPrimerElementoNoNulo(double[][] original, int origen, int destino) {
+		double[] aux = new double[origen];
+		aux = original[origen];
+		original[origen] = original[destino];
+		original[destino] = aux;
 		return true;
 	}
-	
-	// PABLJNN AMIGOOO
 
+	// PABLJNN AMIGOOO
 //	public MatrizMath invertir() throws DistDemException {
 //		double[][] invertida = new double[matriz.length][matriz.length];
 //		MatrizMath mInvertida = new MatrizMath(this.clonar());
@@ -274,38 +271,46 @@ public class MatrizMath {
 //		return this.matriz.length;
 //	}
 
+
 	/* Retorna el valor de la posicion i j */
 	public double getAt(int i, int j) {
 		return this.matriz[i][j];
 	}
-	
+
 	/** FERNANDO AMIGOO 
 	 * @throws DistDemException 
 	 * Version beta*/
-	
+
 	public MatrizMath inversaGauss() throws DistDemException {
-		if(this.dimFil != this.dimCol)
+		if (this.dimFil != this.dimCol)
 			throw new DistDemException("Inversa solo de matrices cuadradas");
 		double pivote, auxiliar;
 		MatrizMath matAuxiliar = new MatrizMath(this.clonar());
 		MatrizMath matInversa = new MatrizMath(this.dimFil, this.dimCol);
+
 		matInversa.matIdentidad();
 		for (int z = 0; z < matAuxiliar.dimFil - 1; z++) {
 			matAuxiliar.ordDesdeI(z, matInversa);
 			pivote = matAuxiliar.matriz[z][z];
-			if(pivote == 0)
+			if (pivote == 0)
 				throw new DistDemException("El determinante es 0");
 			for (int i = z + 1; i < matAuxiliar.dimFil; i++) {
 				auxiliar = matAuxiliar.matriz[i][z];
 				if (auxiliar != 0) {
 					for (int j = 0; j < matAuxiliar.dimCol; j++) {
-						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote - matAuxiliar.matriz[z][j] * auxiliar;
-						matInversa.matriz[i][j] = matInversa.matriz[i][j] * pivote - matInversa.matriz[z][j] * auxiliar;
+//						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote
+//								- matAuxiliar.matriz[z][j] * auxiliar;
+//						matInversa.matriz[i][j] = matInversa.matriz[i][j] * pivote - matInversa.matriz[z][j] * auxiliar;
+						matAuxiliar.matriz[i][j] -= matAuxiliar.matriz[z][j] * auxiliar / pivote;
+						matInversa.matriz[i][j] -= matInversa.matriz[z][j] * auxiliar / pivote;
 					}
 				}
 			}
 		}
-		//Una vez triangulada la matriz pregunto si su det es 0 para no continuar
+		
+//		matAuxiliar.mostrarMatriz();
+		// Una vez triangulada la matriz pregunto si su det es 0 para no
+		// continuar
 		if (matAuxiliar.detIgual0()) {
 			throw new DistDemException("El determinante es 0");
 		}
@@ -315,7 +320,8 @@ public class MatrizMath {
 				auxiliar = matAuxiliar.matriz[i][z];
 				if (auxiliar != 0) {
 					for (int j = 0; j < matAuxiliar.dimCol; j++) {
-						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote - matAuxiliar.matriz[z][j] * auxiliar;
+						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote
+								- matAuxiliar.matriz[z][j] * auxiliar;
 						matInversa.matriz[i][j] = matInversa.matriz[i][j] * pivote - matInversa.matriz[z][j] * auxiliar;
 					}
 					if ((auxiliar = matAuxiliar.matriz[i][i]) != 1) {
@@ -327,7 +333,7 @@ public class MatrizMath {
 				}
 			}
 		}
-		// ESTO ES MEDIO RANCIO PERO NOSE COMO SEA OPTIMO Y PODER DIVIDRLO 
+		// ESTO ES MEDIO RANCIO PERO NOSE COMO SEA OPTIMO Y PODER DIVIDRLO
 		if ((auxiliar = matAuxiliar.matriz[this.dimFil - 1][this.dimFil - 1]) != 1) {
 			for (int j = 0; j < matAuxiliar.dimCol; j++) {
 				matInversa.matriz[this.dimFil - 1][j] /= auxiliar;
@@ -336,9 +342,10 @@ public class MatrizMath {
 		}
 		return matInversa;
 	}
+
 	/* Clona una matriz de dobles */
 	public double[][] clonar() {
-		double [][] mat = new double [this.dimFil][this.dimCol];
+		double[][] mat = new double[this.dimFil][this.dimCol];
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz.length; j++) {
 				mat[i][j] = this.matriz[i][j];
@@ -352,8 +359,8 @@ public class MatrizMath {
 			this.matriz[i][i] = 1;
 		}
 	}
-	
-	/*Ordena desde la fila indicada en inicio */
+
+	/* Ordena desde la fila indicada en inicio */
 	public void ordDesdeI(int inicio, MatrizMath mat2) throws DistDemException {
 		int i = inicio + 1, fila = inicio;
 		while (i < this.dimFil) {
@@ -374,22 +381,22 @@ public class MatrizMath {
 		this.matriz[origen] = this.matriz[destino];
 		this.matriz[destino] = aux;
 	}
-	
-	/* Una vez triangulada la matriz pregunta si el det es 0*/
+
+	/* Una vez triangulada la matriz pregunta si el det es 0 */
 	private boolean detIgual0() {
 		int i = 0;
 		while (i < this.dimFil && this.matriz[i][i] != 0) {
 			i++;
 		}
-		
-		if(i == this.dimFil- 1)
+
+		if (i == this.dimFil - 1)
 			return true;
-		
+
 		return false;
 	}
-	
-	public double normaUno() throws DistDemException{
-		if(this.dimCol != this.dimFil){
+
+	public double normaUno() throws DistDemException {
+		if (this.dimCol != this.dimFil) {
 			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
 		}
 		double mayor = 0;
@@ -398,20 +405,20 @@ public class MatrizMath {
 			for (int i = 0; i < this.matriz.length; i++) {
 				sumaParcial += Math.abs(this.matriz[i][j]);
 			}
-			if(mayor < sumaParcial){
+			if (mayor < sumaParcial) {
 				mayor = sumaParcial;
 			}
 			sumaParcial = 0;
-		}	
+		}
 		return mayor;
 	}
-	
-	public double normaDos() throws DistDemException{
-		if(this.dimCol != this.dimFil){
+
+	public double normaDos() throws DistDemException {
+		if (this.dimCol != this.dimFil) {
 			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
 		}
 		double mayor = 0;
-		double [][] mat = new double [this.dimFil][this.dimCol];
+		double[][] mat = new double[this.dimFil][this.dimCol];
 		MatrizMath mAtxA = new MatrizMath(mat);
 		MatrizMath mTraspuesta = new MatrizMath(this.clonar());
 		mTraspuesta.trasponer();
@@ -420,8 +427,8 @@ public class MatrizMath {
 		return mayor;
 	}
 
-	public double normaInfinita() throws DistDemException{
-		if(this.dimCol != this.dimFil){
+	public double normaInfinita() throws DistDemException {
+		if (this.dimCol != this.dimFil) {
 			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
 		}
 		double mayor = 0;
@@ -430,30 +437,31 @@ public class MatrizMath {
 			for (int j = 0; j < this.matriz.length; j++) {
 				sumaParcial += Math.abs(this.matriz[i][j]);
 			}
-			if(mayor < sumaParcial){
+			if (mayor < sumaParcial) {
 				mayor = sumaParcial;
 			}
 			sumaParcial = 0;
-		}	
+		}
 		return mayor;
 	}
-	
-	public void trasponer(){
+
+	public void trasponer() {
 		double aux = 0;
-		for (int i = 0; i < this.matriz.length-1; i++) {
-			for (int j = i+1; j < this.matriz.length; j++) {
+		for (int i = 0; i < this.matriz.length - 1; i++) {
+			for (int j = i + 1; j < this.matriz.length; j++) {
 				aux = this.matriz[i][j];
 				this.matriz[i][j] = this.matriz[j][i];
 				this.matriz[j][i] = aux;
 			}
 		}
 	}
-	
+
 	private double buscarMayor() {
+
 		double mayor = 0;
 		for (int i = 0; i < this.matriz.length; i++) {
 			for (int j = 0; j < this.matriz.length; j++) {
-				if(mayor < Math.abs(this.matriz[i][j])){
+				if (mayor < Math.abs(this.matriz[i][j])) {
 					mayor = Math.abs(this.matriz[i][j]);
 				}
 			}
