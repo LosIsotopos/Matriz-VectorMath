@@ -74,10 +74,9 @@ public class Sel {
 		 MatrizMath identidadPrima = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
 		 MatrizMath identidad = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
 		 
-		 identidadPrima.matIdentidad();
 		 identidad.matIdentidad();
-//		 identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
-		 identidadPrima.producto(1/1000);
+		 identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
+
 		 identidadPrima = identidad.restarMatriz(identidadPrima);
 		 
 		 if(identidadPrima.normaDos() < Math.pow(10, -6))

@@ -87,9 +87,9 @@ public class Main {
 			sistema1.resolverSistema();
 			sistema1.mostrarResultado();
 			if (sistema1.calcularErrorSolucion()) {
-				System.out.println("FUNCA");
+				System.out.println("Insertidumbre Valida");
 			}else 
-				System.out.println("la tengo inside");
+				System.out.println("Insertidumbre NO VALIDA");
 			
 			} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
