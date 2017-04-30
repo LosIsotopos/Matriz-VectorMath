@@ -2,6 +2,9 @@ package unPackage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -41,28 +44,57 @@ public class Sel {
 		System.out.println(this.vectorIndep);
 	}
 
-	 public void resolverSistema() throws DistDemException{
-		 this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
-	 }
-	 
-	 public void mostrarResultado(){
-		 System.out.println(this.vectorResul);
-	 }
-	 
-	 public boolean calcularErrorSolucion() throws DistDemException{
-		 MatrizMath identidadPrima = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
-		 MatrizMath identidad = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
-		 identidad.matIdentidad();
-		 identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
-		 identidadPrima = identidad.restarMatriz(identidadPrima);
-		 if(identidadPrima.normaDos() < Math.pow(10, -6))
-			 return true;
-		 return false;
-		 
-	 }
+	public void resolverSistema(String path) throws DistDemException {
+		this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
+		this.imprimirResultado(path);
+
+	}
+
+	public void mostrarResultado() {
+		if(this.vectorResul == null)
+			System.err.println("No se ha resuelto el sistema todavia");
+		else
+			System.out.println(this.vectorResul);
+	}
+	
+	public boolean errorValido() throws DistDemException
+	{
+		if(this.calcularError() < Math.pow(10, -6))
+			return true;
+		return false;
+	}
+	public double calcularError() throws DistDemException {
+		MatrizMath identidadPrima = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
+		MatrizMath identidad = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
+		identidad.matIdentidad();
+		identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
+		identidadPrima = identidad.restarMatriz(identidadPrima);
+		return identidadPrima.normaDos();
+	}
 
 	public MatrizMath invertir() throws DistDemException {
 		return this.matriz.inversaGauss();
+	}
+
+	public void imprimirResultado(String path) throws DistDemException {
+		if (this.vectorResul == null)
+			this.resolverSistema(path);
+		try {
+			FileWriter archivo = new FileWriter(new File(path));
+			PrintWriter pw = new PrintWriter(archivo);
+			pw.println(this.vectorResul.length());
+			for (int i = 0; i < this.vectorResul.length(); i++) {
+				pw.println(this.vectorResul.getAt(i));
+			}
+			pw.println();
+			pw.println();
+			pw.print(this.calcularError());
+			
+			pw.close();
+		} catch (IOException e) {
+			System.err.println("NO SE PUDO GENERAR EL ARCHIVO");
+		}
+
 	}
 
 	@Override
@@ -74,7 +106,7 @@ public class Sel {
 				cadena.append(matriz.getAt(i, j) + " ");
 			}
 			cadena.setCharAt(cadena.length() - 1, ']');
-			cadena.append(" ==" + " [" + vectorIndep.getAt(i) + "]\n");
+			cadena.append("== [" + vectorIndep.getAt(i) + "]\n");
 		}
 		return cadena.toString();
 	}

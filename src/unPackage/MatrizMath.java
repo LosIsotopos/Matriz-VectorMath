@@ -277,7 +277,7 @@ public class MatrizMath {
 		}
 		return mat;
 	}
-
+	/* Transforma la matriz llamador en identidad */
 	public void matIdentidad() {
 		for (int i = 0; i < this.dimFil; i++) {
 			this.matriz[i][i] = 1;

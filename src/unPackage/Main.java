@@ -6,11 +6,10 @@ public class Main {
 
 	public static void main(String[] args) throws CloneNotSupportedException, DistDemException {
 		try {
-			Sel sistema1 = new Sel ("sel04.in");
-			System.out.println(sistema1);
-			sistema1.resolverSistema();
+			Sel sistema1 = new Sel ("sel10x10.in");
+			sistema1.resolverSistema("sol10x10.out");
 			sistema1.mostrarResultado();
-			if (sistema1.calcularErrorSolucion()) {
+			if (sistema1.errorValido()) {
 				System.out.println("Insertidumbre Valida");
 			}else 
 				System.out.println("Insertidumbre NO VALIDA");
@@ -19,7 +18,5 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-
 }
