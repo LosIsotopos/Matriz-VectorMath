@@ -44,10 +44,8 @@ public class Sel {
 		System.out.println(this.vectorIndep);
 	}
 
-	public void resolverSistema(String path) throws DistDemException {
+	public void resolverSistema() throws DistDemException {
 		this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
-		this.imprimirResultado(path);
-
 	}
 
 	public void mostrarResultado() {
@@ -72,13 +70,9 @@ public class Sel {
 		return identidadPrima.normaDos();
 	}
 
-	public MatrizMath invertir() throws DistDemException {
-		return this.matriz.inversaGauss();
-	}
-
 	public void imprimirResultado(String path) throws DistDemException {
 		if (this.vectorResul == null)
-			this.resolverSistema(path);
+			this.resolverSistema();
 		try {
 			FileWriter archivo = new FileWriter(new File(path));
 			PrintWriter pw = new PrintWriter(archivo);
