@@ -232,7 +232,7 @@ public class MatrizMath {
 //		return mInvertida;
 //
 //	}
-
+//
 //	private void cerosSuperiores(double[][] original, int i, double[][] invertida) {
 //		double valor;
 //		for (int j = i + 1; j < original.length; j++) {
@@ -257,7 +257,7 @@ public class MatrizMath {
 //			}
 //		}
 //	}
-
+//
 //	private void dividir(double[][] original, int i, double[][] invertida) {
 //		// Guardo el valor previo para no perderlo y aprovechar el for para
 //		// también
@@ -269,19 +269,20 @@ public class MatrizMath {
 //		}
 //
 //	}
-
+//
 //	public int length() {
 //		return this.matriz.length;
 //	}
-//
+
 	/* Retorna el valor de la posicion i j */
 	public double getAt(int i, int j) {
 		return this.matriz[i][j];
 	}
-
+	
 	/** FERNANDO AMIGOO 
-	 * @throws DistDemException */
-	// Version beta
+	 * @throws DistDemException 
+	 * Version beta*/
+	
 	public MatrizMath inversaGauss() throws DistDemException {
 		if(this.dimFil != this.dimCol)
 			throw new DistDemException("Inversa solo de matrices cuadradas");
@@ -292,6 +293,8 @@ public class MatrizMath {
 		for (int z = 0; z < matAuxiliar.dimFil - 1; z++) {
 			matAuxiliar.ordDesdeI(z, matInversa);
 			pivote = matAuxiliar.matriz[z][z];
+			if(pivote == 0)
+				throw new DistDemException("El determinante es 0");
 			for (int i = z + 1; i < matAuxiliar.dimFil; i++) {
 				auxiliar = matAuxiliar.matriz[i][z];
 				if (auxiliar != 0) {
