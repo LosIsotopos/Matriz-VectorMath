@@ -15,7 +15,6 @@ public class VectorMath {
 		this.coord = coord;
 	}
 	
-	
 	public VectorMath(String path) throws FileNotFoundException{
 		Scanner sc = new Scanner(new File(path));
 		int i=0;
@@ -35,7 +34,6 @@ public class VectorMath {
 	}
 
 	public VectorMath sumaVectores(VectorMath v1) throws DistDemException{
-		
 		if(v1.dim == dim){
 			double [] aux = new double[dim];
 			for(int i = 0;i<dim;i++)
@@ -46,7 +44,6 @@ public class VectorMath {
 	}
 	
 	public VectorMath restaVectores(VectorMath v1) throws DistDemException{
-		
 		if(v1.dim == dim){
 			double [] aux = new double[dim];
 			for(int i = 0;i<dim;i++)
@@ -118,7 +115,6 @@ public class VectorMath {
 			aux[i] = coord[i]*r;
 		}
 		return new VectorMath(aux);
-
 	}
 	
 	public int length()
@@ -148,6 +144,4 @@ public class VectorMath {
 	public void setDim(int dim) {
 		this.dim = dim;
 	}
-	
-	
 }
