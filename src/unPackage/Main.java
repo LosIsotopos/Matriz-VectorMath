@@ -7,24 +7,24 @@ import java.util.GregorianCalendar;
 public class Main {
 
 	public static void main(String[] args) throws CloneNotSupportedException, DistDimException {
-		String in = "sel2k.in";
-		String out = "sel2k.out";
-//		try {
-//			
-//			Sel sistema1 = new Sel("entrada//" + in);
-//
-//			sistema1.resolverSistema();
-//
-//			if (sistema1.errorValido()) {
-//				System.out.println("Insertidumbre Valida");
-//			} else {
-//				System.out.println("Insertidumbre NO VALIDA");
-//			}
-//			sistema1.imprimirResultado("salida//" + out);
-//			
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
+		String in = "selfer.in";
+		String out = "selfer.out";
+		try {
+			
+			Sel sistema1 = new Sel("entrada//" + in);
+
+			sistema1.resolverSistema();
+
+			if (sistema1.errorValido()) {
+				System.out.println("Insertidumbre Valida");
+			} else {
+				System.out.println("Insertidumbre NO VALIDA");
+			}
+			sistema1.imprimirResultado("salida//" + out);
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		ProgramaProbador p1;
 		try {
 			p1 = new ProgramaProbador(("entrada//" + in), ("salida//"+out));
