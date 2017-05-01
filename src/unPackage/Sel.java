@@ -18,6 +18,30 @@ public class Sel {
 	private double error = -1;
 
 
+	public VectorMath getVectorIndep() {
+		return vectorIndep;
+	}
+
+	public void setVectorIndep(VectorMath vectorIndep) {
+		this.vectorIndep = vectorIndep;
+	}
+
+	public MatrizMath getMatriz() {
+		return matriz;
+	}
+
+	public void setMatriz(MatrizMath matriz) {
+		this.matriz = matriz;
+	}
+
+	public VectorMath getVectorResul() {
+		return vectorResul;
+	}
+
+	public void setVectorResul(VectorMath vectorResul) {
+		this.vectorResul = vectorResul;
+	}
+
 	public Sel(String path) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(path));
 		sc.useLocale(Locale.ENGLISH);
@@ -38,6 +62,7 @@ public class Sel {
 		/* Se instancia los objetos vector y matriz con los auxiliares */
 		this.matriz = new MatrizMath(matrizAux);
 		this.vectorIndep = new VectorMath(vectorAux);
+		this.vectorResul = new VectorMath(vectorIndep.getDim());
 	}
 
 	public void mostrarMatriz() {
