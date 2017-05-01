@@ -1,14 +1,12 @@
 package unPackage;
 
 import java.io.FileNotFoundException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Main {
 
 	public static void main(String[] args) throws CloneNotSupportedException, DistDimException {
-		String in = "selfer.in";
-		String out = "selfer.out";
+		String in = "sel1k.in";
+		String out = "sel1k.out";
 		try {
 			
 			Sel sistema1 = new Sel("entrada//" + in);
@@ -24,17 +22,6 @@ public class Main {
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		ProgramaProbador p1;
-		try {
-			p1 = new ProgramaProbador(("entrada//" + in), ("salida//"+out));
-
-			if (p1.probar()) {
-				System.out.println("Salida correcta");
-			} else
-				System.err.println("Salida incorrecta");
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
 		}
 	}
 }

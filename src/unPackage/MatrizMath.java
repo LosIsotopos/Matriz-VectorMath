@@ -225,7 +225,7 @@ public class MatrizMath {
 
 		matInversa.matIdentidad();
 		for (z = 0; z < matAuxiliar.dimFil - 1; z++) {
-			if (this.matriz[z][z] == 0)
+			if (matAuxiliar.matriz[z][z] == 0)
 				matAuxiliar.cambiarFila(z, matInversa);
 			
 			if (matAuxiliar.matriz[z][z] == 0)
