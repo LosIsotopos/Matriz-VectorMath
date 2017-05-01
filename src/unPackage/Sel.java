@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class Sel {
 	private VectorMath vectorIndep;
 	private VectorMath vectorResul;
 	private MatrizMath matriz;
+	private double error = -1;
 
 
 	public Sel(String path) throws FileNotFoundException {
@@ -47,7 +49,15 @@ public class Sel {
 	}
 
 	public void resolverSistema() throws DistDimException {
+		Calendar tIniResol = new GregorianCalendar();
+		
 		this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
+		
+		Calendar tFinResol = new GregorianCalendar();
+		long diff = tFinResol.getTimeInMillis() - tIniResol.getTimeInMillis();
+		System.out.println("Tiempo de resolverSistema() = " + diff + " milisegs");
+		
+		this.calcularError();
 	}
 
 	public void mostrarResultado() {
@@ -59,38 +69,37 @@ public class Sel {
 	
 	public boolean errorValido() throws DistDimException
 	{
-		GregorianCalendar tErrorIn = new GregorianCalendar();
-		if(this.calcularError() < Math.pow(10, -6)){
+//		GregorianCalendar tErrorIn = new GregorianCalendar();
+		if(this.error < Math.pow(10, -6)){
 			
-			GregorianCalendar tErrorOut = new GregorianCalendar();
-			System.out.println("Tiempo de calcularError() = " + (tErrorOut.getTimeInMillis() - tErrorIn.getTimeInMillis())+ " milisegs");
+//			GregorianCalendar tErrorOut = new GregorianCalendar();
+//			System.out.println("Tiempo de calcularError() = " + (tErrorOut.getTimeInMillis() - tErrorIn.getTimeInMillis())+ " milisegs");
 			return true;
 		}
 		
-		GregorianCalendar tErrorOut = new GregorianCalendar();
-		System.out.println("Tiempo de calcularError() = " + (tErrorOut.getTimeInMillis() - tErrorIn.getTimeInMillis())+ " milisegs");
+//		GregorianCalendar tErrorOut = new GregorianCalendar();
+//		System.out.println("Tiempo de calcularError() = " + (tErrorOut.getTimeInMillis() - tErrorIn.getTimeInMillis())+ " milisegs");
 		return false;
 	}
-	public double calcularError() throws DistDimException {
+	public void calcularError() throws DistDimException {
 		MatrizMath identidadPrima = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
 		MatrizMath identidad = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
 		identidad.matIdentidad();
 		identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
+	
 		identidadPrima = identidad.restarMatriz(identidadPrima);
 		
-		GregorianCalendar tI = new GregorianCalendar();
+//		GregorianCalendar tI = new GregorianCalendar();
 		
-		double aux = identidadPrima.normaDos();
-		GregorianCalendar tF = new GregorianCalendar();
-		System.out.println("Tiempo de norma2() = " + (tF.getTimeInMillis() - tI.getTimeInMillis())+ " milisegs");
-		return aux;
+		this.error= identidadPrima.normaDos();
+//		GregorianCalendar tF = new GregorianCalendar();
+//		System.out.println("Tiempo de norma2() = " + (tF.getTimeInMillis() - tI.getTimeInMillis())+ " milisegs");
 	}
 
 	public void imprimirResultado(String path) throws DistDimException {
 		if (this.vectorResul == null)
 			this.resolverSistema();
 		try {
-			GregorianCalendar tImprI = new GregorianCalendar();
 			FileWriter archivo = new FileWriter(new File(path));
 			PrintWriter pw = new PrintWriter(archivo);
 			pw.println(this.vectorResul.length());
@@ -99,17 +108,21 @@ public class Sel {
 			}
 			pw.println();
 			pw.println();
-			pw.print(this.calcularError());
+			pw.print(this.error);
 			
 			pw.close();
-			GregorianCalendar tImprF = new GregorianCalendar();
-			System.out.println("Tiempo de imprimirResultado() = " + (tImprF.getTimeInMillis() - tImprI.getTimeInMillis())+ " milisegs");
 		} catch (IOException e) {
 			System.err.println("NO SE PUDO GENERAR EL ARCHIVO");
 		}
 
 	}
 
+//	public double calcularErrorResultado() throws DistDimException {
+//		VectorMath vectIndPrima = this.matriz.producto(vectorResul);
+//		VectorMath vectError = vectorIndep.restaVectores(vectIndPrima);
+//		return (this.error = vectError.normaDos());
+//	}
+	
 	@Override
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();
