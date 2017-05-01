@@ -101,7 +101,7 @@ public class VectorMath {
 	
 	public double normaDos(){
 		double a = 0;
-		for (int i = 0; i < coord.length; i++) {
+		for (int i = 0; i < this.coord.length; i++) {
 			a += Math.pow(coord[i], 2);
 		}
 		return Math.sqrt(a);
