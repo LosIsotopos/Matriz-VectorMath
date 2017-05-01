@@ -15,6 +15,12 @@ public class VectorMath {
 		this.coord = coord;
 	}
 	
+	public VectorMath(int dim)
+	{
+		this.dim = dim;
+		coord = new double[dim];
+	}
+	
 	public VectorMath(String path) throws FileNotFoundException{
 		Scanner sc = new Scanner(new File(path));
 		int i=0;
@@ -33,27 +39,27 @@ public class VectorMath {
 		return "Vector :\n" + Arrays.toString(coord);
 	}
 
-	public VectorMath sumaVectores(VectorMath v1) throws DistDemException{
+	public VectorMath sumaVectores(VectorMath v1) throws DistDimException{
 		if(v1.dim == dim){
 			double [] aux = new double[dim];
 			for(int i = 0;i<dim;i++)
 				aux[i] = coord[i] + v1.coord[i];
 			return new VectorMath(aux);	
 		}
-		throw new DistDemException("No pueden sumarse dos vectores de distintas dimensiones");
+		throw new DistDimException("No pueden sumarse dos vectores de distintas dimensiones");
 	}
 	
-	public VectorMath restaVectores(VectorMath v1) throws DistDemException{
+	public VectorMath restaVectores(VectorMath v1) throws DistDimException{
 		if(v1.dim == dim){
 			double [] aux = new double[dim];
 			for(int i = 0;i<dim;i++)
 				aux[i]= coord[i] - v1.coord[i];
 			return new VectorMath(aux);	
 		}
-		throw new DistDemException("No pueden restarse dos vectores de distintas dimensiones");
+		throw new DistDimException("No pueden restarse dos vectores de distintas dimensiones");
 	}
 
-	public double producto(VectorMath v1) throws DistDemException{
+	public double producto(VectorMath v1) throws DistDimException{
 		if(v1.dim == dim){
 			double res=0;
 			for(int i = 0;i<dim;i++){
@@ -61,7 +67,7 @@ public class VectorMath {
 			}
 			return res;
 		}
-		throw new DistDemException("No pueden multiplicarse dos vectores de distintas dimensiones");
+		throw new DistDimException("No pueden multiplicarse dos vectores de distintas dimensiones");
 	}
 
 	@Override

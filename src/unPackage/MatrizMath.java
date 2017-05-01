@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
 
+
 public class MatrizMath {
 	private int dimCol;
 	private int dimFil;
@@ -65,9 +66,9 @@ public class MatrizMath {
 		}
 	}
 
-	public MatrizMath sumarMatriz(MatrizMath m) throws DistDemException {
+	public MatrizMath sumarMatriz(MatrizMath m) throws DistDimException {
 		if (this.dimCol != m.dimCol || this.dimFil != m.dimFil) {
-			throw new DistDemException("No pueden sumarse matrices de distintas dimensiones");
+			throw new DistDimException("No pueden sumarse matrices de distintas dimensiones");
 		}
 		double[][] matResult = new double[m.dimFil][m.dimCol];
 		for (int i = 0; i < matriz.length; i++) {
@@ -78,9 +79,9 @@ public class MatrizMath {
 		return new MatrizMath(matResult);
 	}
 
-	public MatrizMath restarMatriz(MatrizMath m) throws DistDemException {
+	public MatrizMath restarMatriz(MatrizMath m) throws DistDimException {
 		if (this.dimCol != m.dimCol || this.dimFil != m.dimFil) {
-			throw new DistDemException("No pueden sumarse matrices de distintas dimensiones");
+			throw new DistDimException("No pueden sumarse matrices de distintas dimensiones");
 		}
 		double[][] matResult = new double[m.dimFil][m.dimCol];
 		for (int i = 0; i < matriz.length; i++) {
@@ -91,9 +92,9 @@ public class MatrizMath {
 		return new MatrizMath(matResult);
 	}
 
-	public MatrizMath producto(MatrizMath m) throws DistDemException {
+	public MatrizMath producto(MatrizMath m) throws DistDimException {
 		if (this.dimCol != m.dimFil) {
-			throw new DistDemException("No pueden multiplicarse las matrices, dimensiones erroneas");
+			throw new DistDimException("No pueden multiplicarse las matrices, dimensiones erroneas");
 		}
 		double[][] matResult = new double[dimFil][m.dimCol];
 		for (int i = 0; i < matriz.length; i++) {
@@ -106,9 +107,9 @@ public class MatrizMath {
 		return new MatrizMath(matResult);
 	}
 
-	public VectorMath producto(VectorMath v) throws DistDemException {
+	public VectorMath producto(VectorMath v) throws DistDimException {
 		if (this.dimCol != v.getDim()) {
-			throw new DistDemException("No pueden multiplicarse la matriz por el vector, dimensiones erroneas");
+			throw new DistDimException("No pueden multiplicarse la matriz por el vector, dimensiones erroneas");
 		}
 		double[] vecResult = new double[dimFil];
 		double[] aux = new double[v.getDim()];
@@ -149,10 +150,10 @@ public class MatrizMath {
 		return true;
 	}
 
-	public double determinante() throws DistDemException {
+	public double determinante() throws DistDimException {
 		int move;
 		if (dimCol != dimFil) {
-			throw new DistDemException("No puede calcular el determinante ya que la matriz no es cuadrada");
+			throw new DistDimException("No puede calcular el determinante ya que la matriz no es cuadrada");
 		}
 		double res = 0;
 		MatrizMath mDet = new MatrizMath(this.clonar());
@@ -207,64 +208,81 @@ public class MatrizMath {
 		return this.matriz[i][j];
 	}
 
-	/** FERNANDO AMIGOO 
-	 * @throws DistDemException 
-	 * Version beta*/
-
-	public MatrizMath inversaGauss() throws DistDemException {
+	/**
+	 * FERNANDO AMIGOO
+	 * 
+	 * @throws DistDimException
+	 *             Version beta
+	 */
+	
+	public MatrizMath inversaGauss() throws DistDimException {
 		if (this.dimFil != this.dimCol)
-			throw new DistDemException("Inversa solo de matrices cuadradas");
+			throw new DistDimException("Inversa solo de matrices cuadradas");
 		double pivote, auxiliar;
+		int z,i,j;
 		MatrizMath matAuxiliar = new MatrizMath(this.clonar());
 		MatrizMath matInversa = new MatrizMath(this.dimFil, this.dimCol);
 
 		matInversa.matIdentidad();
-		for (int z = 0; z < matAuxiliar.dimFil - 1; z++) {
-			matAuxiliar.ordDesdeI(z, matInversa);
-			pivote = matAuxiliar.matriz[z][z];
-			if (pivote == 0)
-				throw new DistDemException("El determinante es 0");
-			for (int i = z + 1; i < matAuxiliar.dimFil; i++) {
+		for (z = 0; z < matAuxiliar.dimFil - 1; z++) {
+			if (this.matriz[z][z] == 0)
+				matAuxiliar.cambiarFila(z, matInversa);
+			
+			if (matAuxiliar.matriz[z][z] == 0)
+				throw new DistDimException("No tiene inversa");
+			else if (matAuxiliar.matriz[z][z] != 1)
+				matAuxiliar.dividirFila(z, matInversa);
+			
+			for (i = z + 1; i < matAuxiliar.dimFil; i++) {
 				auxiliar = matAuxiliar.matriz[i][z];
 				if (auxiliar != 0) {
-					for (int j = 0; j < matAuxiliar.dimCol; j++) {
+					for (j = 0; j < matAuxiliar.dimCol; j++) {
+						matAuxiliar.matriz[i][j] -= matAuxiliar.matriz[z][j] * auxiliar;
+						matInversa.matriz[i][j] -= matInversa.matriz[z][j] * auxiliar;
+					}
+				}
+			}
+		}
+		
+		if (matAuxiliar.detIgual0()) {
+			throw new DistDimException("El determinante es 0");
+		}
+		
+		if(matAuxiliar.matriz[matAuxiliar.dimFil-1][matAuxiliar.dimFil-1] !=1)
+			matAuxiliar.dividirFila(z, matInversa);
+		// Una vez triangulada la matriz pregunto si su det es 0 para no
+		// continuar
+
+		for (z = matAuxiliar.dimFil - 1; z > 0; z--) {
+			pivote = matAuxiliar.matriz[z][z];
+			for (i = z - 1; i >= 0; i--) {
+				auxiliar = matAuxiliar.matriz[i][z];
+				if (auxiliar != 0) {
+					for (j = 0; j < matAuxiliar.dimCol; j++) {
 						matAuxiliar.matriz[i][j] -= matAuxiliar.matriz[z][j] * auxiliar / pivote;
 						matInversa.matriz[i][j] -= matInversa.matriz[z][j] * auxiliar / pivote;
 					}
 				}
 			}
 		}
-		// Una vez triangulada la matriz pregunto si su det es 0 para no
-		// continuar
-		if (matAuxiliar.detIgual0()) {
-			throw new DistDemException("El determinante es 0");
-		}
-		for (int z = matAuxiliar.dimFil - 1; z > 0; z--) {
-			pivote = matAuxiliar.matriz[z][z];
-			for (int i = z - 1; i >= 0; i--) {
-				auxiliar = matAuxiliar.matriz[i][z];
-				if (auxiliar != 0) {
-					for (int j = 0; j < matAuxiliar.dimCol; j++) {
-						matAuxiliar.matriz[i][j] = matAuxiliar.matriz[i][j] * pivote
-								- matAuxiliar.matriz[z][j] * auxiliar;
-						matInversa.matriz[i][j] = matInversa.matriz[i][j] * pivote - matInversa.matriz[z][j] * auxiliar;
-					}
-					if ((auxiliar = matAuxiliar.matriz[i][i]) != 1) {
-						for (int j = 0; j < matAuxiliar.dimCol; j++) {
-							matInversa.matriz[i][j] /= auxiliar;
-							matAuxiliar.matriz[i][j] /= auxiliar;
-						}
-					}
-				}
-			}
-		}
-		if ((auxiliar = matAuxiliar.matriz[this.dimFil - 1][this.dimFil - 1]) != 1) {
-			for (int j = 0; j < matAuxiliar.dimCol; j++) {
-				matInversa.matriz[this.dimFil - 1][j] /= auxiliar;
-				matAuxiliar.matriz[this.dimFil - 1][j] /= auxiliar;
-			}
-		}
+		
+
 		return matInversa;
+	}
+
+	protected MatrizMath clone() {
+		MatrizMath clon = new MatrizMath(this.dimFil, this.dimCol);
+
+		for (int i = 0; i < this.dimFil; i++) {
+			for (int j = i; j < this.dimCol; j++) {
+				clon.matriz[i][j] = this.matriz[i][j];
+
+				if (i != j)
+					clon.matriz[j][i] = this.matriz[j][i];
+			}
+		}
+
+		return clon;
 	}
 
 	/* Clona una matriz de dobles */
@@ -277,33 +295,42 @@ public class MatrizMath {
 		}
 		return mat;
 	}
+
 	/* Transforma la matriz llamador en identidad */
 	public void matIdentidad() {
 		for (int i = 0; i < this.dimFil; i++) {
 			this.matriz[i][i] = 1;
 		}
 	}
-
 	/* Ordena desde la fila indicada en inicio */
-	public void ordDesdeI(int inicio, MatrizMath mat2) throws DistDemException {
-		int i = inicio + 1, fila = inicio;
-		while (i < this.dimFil) {
-			if (this.matriz[fila][inicio] == 0 && this.matriz[i][inicio] != 0) {
-				this.mover(fila, i);
-				mat2.mover(fila, i);
-				fila++;
-			}
+
+	public void cambiarFila(int inicio, MatrizMath mat2) throws DistDimException {
+		int i = inicio + 1;
+
+		while (i < this.dimFil && this.matriz[i][inicio] == 0)
 			i++;
+		if (i != this.dimFil) {
+			this.mover(inicio, i);
+			mat2.mover(inicio, i);
 		}
+
 	}
 
-	public void mover(int origen, int destino) throws DistDemException {
+	public void mover(int origen, int destino) throws DistDimException {
 		if (origen < 0 || destino >= this.dimFil)
-			throw new DistDemException("SE PASO DE LAS FILAS DE LA MATRIZ");
+			throw new DistDimException("SE PASO DE LAS FILAS DE LA MATRIZ");
 		double[] aux = new double[this.dimFil];
 		aux = this.matriz[origen];
 		this.matriz[origen] = this.matriz[destino];
 		this.matriz[destino] = aux;
+	}
+
+	public void dividirFila(int origen, MatrizMath mat2) {
+		double auxiliar = this.matriz[origen][origen];
+		for (int i = 0; i < this.dimCol; i++) {
+			this.matriz[origen][i] /= auxiliar;
+			mat2.matriz[origen][i] /= auxiliar;
+		}
 	}
 
 	/* Una vez triangulada la matriz pregunta si el det es 0 */
@@ -319,9 +346,9 @@ public class MatrizMath {
 		return false;
 	}
 
-	public double normaUno() throws DistDemException {
+	public double normaUno() throws DistDimException {
 		if (this.dimCol != this.dimFil) {
-			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
+			throw new DistDimException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
 		}
 		double mayor = 0;
 		double sumaParcial = 0;
@@ -337,23 +364,20 @@ public class MatrizMath {
 		return mayor;
 	}
 
-	public double normaDos() throws DistDemException {
+	public double normaDos() throws DistDimException {
 		if (this.dimCol != this.dimFil) {
-			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
+			throw new DistDimException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
 		}
-		double mayor = 0;
-		double[][] mat = new double[this.dimFil][this.dimCol];
-		MatrizMath mAtxA = new MatrizMath(mat);
+		MatrizMath mAtxA = new MatrizMath(this.dimFil,this.dimCol);
 		MatrizMath mTraspuesta = new MatrizMath(this.clonar());
 		mTraspuesta.trasponer();
 		mAtxA = this.producto(mTraspuesta);
-		mayor = Math.sqrt(mAtxA.buscarMayor());
-		return mayor;
+		return Math.sqrt(mAtxA.buscarMayor());
 	}
 
-	public double normaInfinita() throws DistDemException {
+	public double normaInfinita() throws DistDimException {
 		if (this.dimCol != this.dimFil) {
-			throw new DistDemException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
+			throw new DistDimException("No puede calcularse la NormaUno debido a que no es una matriz cuadrada");
 		}
 		double mayor = 0;
 		double sumaParcial = 0;
@@ -378,6 +402,21 @@ public class MatrizMath {
 				this.matriz[j][i] = aux;
 			}
 		}
+	}
+
+	
+	@Override
+	public String toString() {
+		StringBuilder cadena = new StringBuilder();
+		for (int i = 0; i < this.dimFil; i++) {
+			cadena.append("[");
+			for (int j = 0; j < this.dimCol; j++) {
+				cadena.append(this.matriz[i][j] + " ");
+			}
+			cadena.deleteCharAt(cadena.length() - 1);
+			cadena.append("]\n");
+		}
+		return cadena.toString();
 	}
 
 	private double buscarMayor() {
