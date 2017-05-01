@@ -75,9 +75,14 @@ public class Sel {
 
 	public void resolverSistema() throws DistDimException {
 		Calendar tIniResol = new GregorianCalendar();
-		
-		this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
-		
+		MatrizMath mInv;
+		mInv = this.matriz.inversaGauss();
+//		this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
+		if(mInv == null){
+			this.matriz = null;
+			return;
+		}
+		this.vectorResul = mInv.producto(this.vectorIndep);
 		Calendar tFinResol = new GregorianCalendar();
 		long diff = tFinResol.getTimeInMillis() - tIniResol.getTimeInMillis();
 		System.out.println("Tiempo de resolverSistema() = " + diff + " milisegs");
@@ -94,6 +99,9 @@ public class Sel {
 	
 	public boolean errorValido() throws DistDimException
 	{
+		if(error == -1){
+			return false;
+		}
 //		GregorianCalendar tErrorIn = new GregorianCalendar();
 		if(this.error < Math.pow(10, -6)){
 			
@@ -122,11 +130,14 @@ public class Sel {
 	}
 
 	public void imprimirResultado(String path) throws DistDimException {
-		if (this.vectorResul == null)
-			this.resolverSistema();
 		try {
 			FileWriter archivo = new FileWriter(new File(path));
 			PrintWriter pw = new PrintWriter(archivo);
+			if(this.matriz == null){
+				pw.println();
+				pw.close();
+				return;
+			}
 			pw.println(this.vectorResul.length());
 			for (int i = 0; i < this.vectorResul.length(); i++) {
 				pw.println(this.vectorResul.getAt(i));

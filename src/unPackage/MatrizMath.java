@@ -245,7 +245,8 @@ public class MatrizMath {
 		}
 		
 		if (matAuxiliar.detIgual0()) {
-			throw new DistDimException("El determinante es 0, no tiene inversa. No es un Sistema Compatible Determinado");
+//			throw new DistDimException("El determinante es 0, no tiene inversa. No es un Sistema Compatible Determinado");
+			return null;
 		}
 		
 		if(matAuxiliar.matriz[matAuxiliar.dimFil-1][matAuxiliar.dimFil-1] !=1)
