@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 public class Main {
 
-	public static void main(String[] args) throws CloneNotSupportedException, DistDimException {
+	public static void main(String[] args) throws CloneNotSupportedException, DistDimException, FileNotFoundException {
 		String in = "sel50.in";
 		String out = "sel50.out";
 		try {

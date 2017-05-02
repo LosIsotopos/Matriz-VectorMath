@@ -215,7 +215,7 @@ public class MatrizMath {
 	 *             Version beta
 	 */
 	
-	public MatrizMath inversaGauss() throws DistDimException {
+	public MatrizMath inversaGauss() throws DistDimException {	
 		if (this.dimFil != this.dimCol)
 			throw new DistDimException("Inversa solo de matrices cuadradas");
 		double pivote, auxiliar;
@@ -266,11 +266,9 @@ public class MatrizMath {
 				}
 			}
 		}
-		
-
 		return matInversa;
 	}
-
+	
 	protected MatrizMath clone() {
 		MatrizMath clon = new MatrizMath(this.dimFil, this.dimCol);
 
