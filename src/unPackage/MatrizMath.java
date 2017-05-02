@@ -174,7 +174,7 @@ public class MatrizMath {
 		return res * move;
 	}
 
-	private int cerosInferior() {
+	private int cerosInferior() {	
 		int movio = 1;
 		int i = 0, j = 0, fila;
 		while (j < this.dimCol - 1) {
