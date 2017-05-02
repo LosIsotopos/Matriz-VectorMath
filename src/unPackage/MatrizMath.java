@@ -432,6 +432,13 @@ public class MatrizMath {
 		return mayor;
 	}
 
-
+	public double calcularErrorMatrizInversa() throws DistDimException {
+		MatrizMath identidadPrima = new MatrizMath(this.getDimFil(), this.getDimCol());
+		MatrizMath identidad = new MatrizMath(this.getDimFil(), this.getDimCol());
+		identidad.matIdentidad();
+		identidadPrima = this.inversaGauss().producto(this);
+		identidadPrima = identidad.restarMatriz(identidadPrima);
+		return identidadPrima.normaDos();
+	}
 
 }

@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 public class Main {
 
 	public static void main(String[] args) throws CloneNotSupportedException, DistDimException {
-		String in = "selError.in";
-		String out = "selError.out";
+		String in = "sel50.in";
+		String out = "sel50.out";
 		try {
 			
 			Sel sistema1 = new Sel("entrada//" + in);

@@ -77,7 +77,6 @@ public class Sel {
 		Calendar tIniResol = new GregorianCalendar();
 		MatrizMath mInv;
 		mInv = this.matriz.inversaGauss();
-//		this.vectorResul = this.matriz.inversaGauss().producto(this.vectorIndep);
 		if(mInv == null){
 			this.matriz = null;
 			return;
@@ -102,31 +101,18 @@ public class Sel {
 		if(error == -1){
 			return false;
 		}
-//		GregorianCalendar tErrorIn = new GregorianCalendar();
 		if(this.error < Math.pow(10, -6)){
-			
-//			GregorianCalendar tErrorOut = new GregorianCalendar();
-//			System.out.println("Tiempo de calcularError() = " + (tErrorOut.getTimeInMillis() - tErrorIn.getTimeInMillis())+ " milisegs");
 			return true;
 		}
-		
-//		GregorianCalendar tErrorOut = new GregorianCalendar();
-//		System.out.println("Tiempo de calcularError() = " + (tErrorOut.getTimeInMillis() - tErrorIn.getTimeInMillis())+ " milisegs");
 		return false;
 	}
-	public void calcularError() throws DistDimException {
-		MatrizMath identidadPrima = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
-		MatrizMath identidad = new MatrizMath(this.matriz.getDimFil(), this.matriz.getDimCol());
-		identidad.matIdentidad();
-		identidadPrima = this.matriz.inversaGauss().producto(this.matriz);
 	
-		identidadPrima = identidad.restarMatriz(identidadPrima);
-		
-//		GregorianCalendar tI = new GregorianCalendar();
-		
-		this.error= identidadPrima.normaDos();
-//		GregorianCalendar tF = new GregorianCalendar();
-//		System.out.println("Tiempo de norma2() = " + (tF.getTimeInMillis() - tI.getTimeInMillis())+ " milisegs");
+	public void calcularError() throws DistDimException {
+		VectorMath vectIndPrima;
+		VectorMath vectError;
+		vectIndPrima = this.matriz.producto(this.vectorResul);
+		vectError = vectIndPrima.restaVectores(this.vectorIndep);
+		this.error = vectError.normaDos();
 	}
 
 	public void imprimirResultado(String path) throws DistDimException {
@@ -152,12 +138,6 @@ public class Sel {
 		}
 
 	}
-
-//	public double calcularErrorResultado() throws DistDimException {
-//		VectorMath vectIndPrima = this.matriz.producto(vectorResul);
-//		VectorMath vectError = vectorIndep.restaVectores(vectIndPrima);
-//		return (this.error = vectError.normaDos());
-//	}
 	
 	@Override
 	public String toString() {
