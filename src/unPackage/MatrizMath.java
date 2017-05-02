@@ -113,10 +113,11 @@ public class MatrizMath {
 		}
 		double[] vecResult = new double[dimFil];
 		double[] aux = new double[v.getDim()];
+		double errorValido = Math.pow(10, -6);
 		aux = v.getCoord();
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
-				vecResult[i] += matriz[i][j] * aux[j];
+					vecResult[i] += matriz[i][j] * aux[j];
 			}
 		}
 		return new VectorMath(vecResult);
@@ -229,7 +230,8 @@ public class MatrizMath {
 				matAuxiliar.cambiarFila(z, matInversa);
 			
 			if (matAuxiliar.matriz[z][z] == 0)
-				throw new DistDimException("No tiene inversa");
+				return null;
+//				throw new DistDimException("No tiene inversa");
 			else if (matAuxiliar.matriz[z][z] != 1)
 				matAuxiliar.dividirFila(z, matInversa);
 			
