@@ -5,11 +5,12 @@ import java.io.FileNotFoundException;
 public class Main {
 
 	public static void main(String[] args) throws CloneNotSupportedException, DistDimException {
-		String in = "sel50.in";
-		String out = "sel50.out";
+		String nombre = "07_col0";
+		String in = nombre +".in";
+		String out = nombre+ ".out";
 		try {
 			
-			Sel sistema1 = new Sel("entrada//" + in);
+			Sel sistema1 = new Sel("Lote de prueba//Entrada//" + in);
 			sistema1.resolverSistema();
 
 			if (sistema1.errorValido()) {
@@ -17,7 +18,7 @@ public class Main {
 			} else {
 				System.out.println("Insertidumbre NO VALIDA");
 			}
-			sistema1.imprimirResultado("salida//" + out);
+			sistema1.imprimirResultado("Lote de prueba//Salida//" + out);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

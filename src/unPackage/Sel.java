@@ -120,7 +120,7 @@ public class Sel {
 			FileWriter archivo = new FileWriter(new File(path));
 			PrintWriter pw = new PrintWriter(archivo);
 			if(this.matriz == null){
-				pw.println();
+				pw.println("NO TIENE SOLUCION");
 				pw.close();
 				return;
 			}
