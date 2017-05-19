@@ -113,7 +113,6 @@ public class MatrizMath {
 		}
 		double[] vecResult = new double[dimFil];
 		double[] aux = new double[v.getDim()];
-		double errorValido = Math.pow(10, -6);
 		aux = v.getCoord();
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
